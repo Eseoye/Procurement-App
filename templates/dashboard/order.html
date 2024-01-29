@@ -1,0 +1,73 @@
+{% extends 'partials/base.html' %}
+{% block title %} Order Page {% endblock %}
+
+{% block content %}
+
+
+{% include 'partials/topnav.html' %}
+<!--Table-->
+<div class="container">
+    <div class="row my-4">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-8">
+            <table class="table bg-white">
+                <thead class="bg-info">
+                    <tr class="text-white">
+                        
+                        <th scope="col">Product</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Order by</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        
+                        <td>{{ order.product }}</td>
+                        <td>{{ order.product.category }}</td>
+                        <td>{{ order.order_quantity }}</td>
+                        <td>
+                            {{ order.staff.username }}
+                        </td>
+                        <td>
+                            {{ order.date }}
+                        </td>
+
+                        <td>
+
+                            {% if order.status == 0%}
+                            <div class="row">
+                                <div class="col-md-6">
+                            <a href="{% url 'dashboard-order-approve' order.id %}" 
+                            class="btn btn-success" style="display: inline-block;">Approve</a>
+                                </div>
+                                <div class="col-md-4">
+                            <a href="{% url 'dashboard-order-disapprove' order.id %}" 
+                            class="btn btn-danger" style="display: inline-block;">Disapprove</a>
+                                </div>
+                            {% elif order.status == 1 %}
+                            <button class="btn btn-warning" disabled="disabled" data-toggle="modal" 
+                            data-target="#reply_modal">Approved</button> 
+                            {% else %}
+                            <button class="btn btn-danger" disabled="disabled" 
+                            data-toggle="modal" data-target="#reply_modal">Disapproved</button> 
+                            {% endif %} 
+                        </td> 
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+
+<!--End Table-->
+{% endblock%}
